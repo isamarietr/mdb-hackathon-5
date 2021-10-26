@@ -35,10 +35,8 @@ fle_opts = AutoEncryptionOpts(
     schema_map={"Leafsaver.UserProfileEncrypted": collection_schema},
 )
 
-# Add a new document to the "people" collection, and then read it back out
-# to demonstrate that the ssn field is automatically decrypted by PyMongo:
-#
-# with MongoClient(os.environ["MDB_URL"], auto_encryption_opts=fle_opts) as client:
+# Add new documents to the "UserProfileEncrypted" collection, and then read it back out
+# to demonstrate that the MedicalProfileID, DOB, and InsurancePolicyID fields are automatically decrypted by PyMongo:
 with MongoClient(get_connection_string(), auto_encryption_opts=fle_opts) as client:
     client.Leafsaver.UserProfileEncrypted.delete_many({})
     client.Leafsaver.UserProfileEncrypted.insert_one(
@@ -71,55 +69,103 @@ with MongoClient(get_connection_string(), auto_encryption_opts=fle_opts) as clie
             "UserId": "61780e2968f275f84ec66f2c"
         }
     )
-    print("Decrypted find() results: ")
-    print(client.Leafsaver.UserProfileEncrypted.find_one())
 
-# Connect to MongoDB, but this time without FLE configuration.
-# This will print the document with ssn *still encrypted*:
-# 
-# with MongoClient(os.environ["MDB_URL"]) as client:
-with MongoClient(get_connection_string()) as client:
-    print("Encrypted find() results: ")
-    print(client.Leafsaver.UserProfileEncrypted.find_one())
-
-# The following demonstrates that if the ssn field is encrypted as
-# "Random" it cannot be filtered:
-try:
-    # with MongoClient(os.environ["MDB_URL"], auto_encryption_opts=fle_opts) as client:
-    with MongoClient(get_connection_string(), auto_encryption_opts=fle_opts) as client:
-        print("Find by Medical Profile ID: ")
-        print(client.Leafsaver.UserProfileEncrypted.find_one({"MedicalRecordId": "3D@v[(p$1@2naqO("}))
-except EncryptionError as e:
-    # This is expected if the field is "Random" but not if it's "Deterministic"
-    print(e)
-
-# Configure encryption options with the same key, but *without* a schema:
-fle_opts_no_schema = AutoEncryptionOpts(
-    kms_providers,
-    "fle_demo.__keystore",
-)
-# with MongoClient(
-#     os.environ["MDB_URL"], auto_encryption_opts=fle_opts_no_schema
-# ) as client:
-with MongoClient(
-    get_connection_string(), auto_encryption_opts=fle_opts_no_schema
-) as client:
-    print("Inserting Thomas Moreau, without configured schema.")
-    # This will insert a document *without* encrypted Medical Profile ID, because
-    # no schema is specified in the client or server:
     client.Leafsaver.UserProfileEncrypted.insert_one(
         {
-            "firstName": "Thomas",
-            "lastName": "Moreau",
-            "MedicalRecordId": "987-98-9876",
+            "FirstName": "Blanche",
+            "LastName": "Verheul",
+            "email":"fiskatgid@vi.dj", 
+            "MedicalRecordId": "^%CelIYOmGo%uYp5",
+            "AccountId": "dSJkV$hnDf1i$6GS",
+            "DOB": "1985/10/26",
+            "Phone": "+16244193449",
+            "address": {
+                "number": 5307,
+                "street": "Fubpu Square",
+                "city": "Akbukil",
+                "state": "OK",
+                "zip": "00548",
+                "location": {
+                    "type": "Point",
+                    "coordinates": [-74.30605,42.19567]
+                }
+            },
+            "Insurance": {
+                "ProviderName": "AETNA",
+                "PolicyId": "%Ugg*#jp[["
+            },
+            "Devices": {
+                "DeviceId": "Heart1234"
+            },
+            "UserId": "61780e1d059bdc5f0e0f810e"
+        }
+    )
+    client.Leafsaver.UserProfileEncrypted.insert_one(
+        {
+            "FirstName": "Mamie",
+            "LastName": "Da SilvaSilva",
+            "email": "jeegar@example.com",
+            "MedicalRecordId": "ILIqceSPu!MBjD)@",
+            "AccountId":"TKp#uofmiIvoih2A", 
+            "DOB":"1992/03/01", 
+            "Phone":"+14164357793", 
+            "address": {
+                "number": 1077,
+                "street": "Dubaz Avenue",
+                "city": "Pemhotno",
+                "state": "WA",
+                "zip": "38920",
+                "location": {
+                    "type": "Point",
+                    "coordinates": [-74.91613,41.87306]
+                }
+            },
+            "Insurance": {
+                "ProviderName": "MEDICARE",
+                "PolicyId": "7aRcz9DDa1"
+            },
+            "Devices": {
+                "DeviceId": "RoomTemp1234"
+            },
+            "UserId": "61780e45bc9c376267053a6c"
         }
     )
 
-# Connect without FLE configuration to show that Bertie Valentini is
-# encrypted, but Thomas Moreau has his Medical Record ID saved as plaintext.
-#
-# with MongoClient(os.environ["MDB_URL"]) as client:
+    decryptedResults = client['Leafsaver']['UserProfileEncrypted'].aggregate([
+    {
+        '$match': {
+            'MedicalRecordId': {
+                '$exists': True
+            }
+        }
+    }, {
+        '$limit': 5
+    }
+    ])
+
+    print("Decrypted find() results: ")
+    print("==========================")
+    for result in decryptedResults:
+        print(result)
+    
+
+# Connect to MongoDB, but this time without FLE configuration.
+# This will print the document with fields *still encrypted*:
 with MongoClient(get_connection_string()) as client:
-    print("Encrypted find() results: ")
-    for doc in client.Leafsaver.UserProfileEncrypted.find():
-        print(" *", doc)
+
+    encryptedResults = client['Leafsaver']['UserProfileEncrypted'].aggregate([
+    {
+        '$match': {
+            'MedicalRecordId': {
+                '$exists': True
+            }
+        }
+    }, {
+        '$limit': 5
+    }
+    ])
+
+    print("\n\nEncrypted find() results: ")
+    print("==========================")
+    for result in encryptedResults:
+        print(result)
