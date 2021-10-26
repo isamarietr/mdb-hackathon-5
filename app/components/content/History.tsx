@@ -17,43 +17,46 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-
-const rows = [
-  { field1: 'data1', field2: 'data1', field3: 6.0,  field4: 24, field5: 4.0 },
-  { field1: 'data1', field2: 'data1', field3: 6.0,  field4: 24, field5: 4.0 },
-  { field1: 'data1', field2: 'data1', field3: 6.0,  field4: 24, field5: 4.0 },
-  { field1: 'data1', field2: 'data1', field3: 6.0,  field4: 24, field5: 4.0 },
-  { field1: 'data1', field2: 'data1', field3: 6.0,  field4: 24, field5: 4.0 },
-  { field1: 'data1', field2: 'data1', field3: 6.0,  field4: 24, field5: 4.0 },
-];
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function History() {
+    
+  const [data, setData ] = useState<any[]>([])
+
+  useEffect(() => {
+    axios.get(`/api/iot?DeviceId=${"Glucose1234"}&limit=-1`).then(response => {
+      console.log(`data`, response);
+      setData(response.data.result);
+    }).catch(error => {
+      console.log(error.response)
+    })
+  }, [])
+
   return (
     <Grid container spacing={2} alignItems="center">
-      <TableContainer component={Paper}>
+            <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell>Field1</TableCell>
-            <TableCell align="right">Field2</TableCell>
-            <TableCell align="right">Field3</TableCell>
-            <TableCell align="right">Field4</TableCell>
-            <TableCell align="right">Field5</TableCell>
+            <TableCell>Device Date</TableCell>
+            <TableCell align="right">Device Id</TableCell>
+            <TableCell align="right">Device Type</TableCell>
+            <TableCell align="right">Measurement Value</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {data.map((row) => (
             <TableRow
-              key={'fieldvalue'}
+              key={row._id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {'fieldvalue'}
+                {row.DeviceDate}
               </TableCell>
-              <TableCell align="right">{row.field1}</TableCell>
-              <TableCell align="right">{row.field2}</TableCell>
-              <TableCell align="right">{row.field3}</TableCell>
-              <TableCell align="right">{row.field4}</TableCell>
+              <TableCell align="right">{row.DeviceId}</TableCell>
+              <TableCell align="right">{row.DeviceType}</TableCell>
+              <TableCell align="right">{row.value}</TableCell>
             </TableRow>
           ))}
         </TableBody>

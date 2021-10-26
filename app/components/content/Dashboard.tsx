@@ -20,47 +20,60 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const rows = [
-  { field1: 'data1', field2: 'data1', field3: 6.0,  field4: 24, field5: 4.0 },
-  { field1: 'data1', field2: 'data1', field3: 6.0,  field4: 24, field5: 4.0 },
-  { field1: 'data1', field2: 'data1', field3: 6.0,  field4: 24, field5: 4.0 },
-  { field1: 'data1', field2: 'data1', field3: 6.0,  field4: 24, field5: 4.0 },
-  { field1: 'data1', field2: 'data1', field3: 6.0,  field4: 24, field5: 4.0 },
-  { field1: 'data1', field2: 'data1', field3: 6.0,  field4: 24, field5: 4.0 },
-];
+// const rows = [
+//   {"_id":"61780ee9a3b534cfbf7cad81","DeviceId":"Glucose1234","DeviceType":"Glocose Monitor","value":68.87,"DeviceDate":"2021-10-26 10:21:29.426603"},
+//   {"_id":"61780ee9a3b534cfbf7cad81","DeviceId":"Glucose1234","DeviceType":"Glocose Monitor","value":68.87,"DeviceDate":"2021-10-26 10:21:29.426603"},
+//   {"_id":"61780ee9a3b534cfbf7cad81","DeviceId":"Glucose1234","DeviceType":"Glocose Monitor","value":68.87,"DeviceDate":"2021-10-26 10:21:29.426603"},
+//   {"_id":"61780ee9a3b534cfbf7cad81","DeviceId":"Glucose1234","DeviceType":"Glocose Monitor","value":68.87,"DeviceDate":"2021-10-26 10:21:29.426603"},
+//   {"_id":"61780ee9a3b534cfbf7cad81","DeviceId":"Glucose1234","DeviceType":"Glocose Monitor","value":68.87,"DeviceDate":"2021-10-26 10:21:29.426603"},
+// ];
 
 export default function Dashboard({client}) {
   
+  const [data, setData ] = useState<any[]>([])
+
+  useEffect(() => {
+    axios.get(`/api/iot?limit=10`).then(response => {
+    // axios.get(`/api/iot?DeviceId=${"Glucose1234"}&limit=10`).then(response => {
+      console.log(`data`, response);
+      setData(response.data.result);
+    }).catch(error => {
+      console.log(error.response)
+    })
+  }, [])
+
   const chartsClient = useRealmApp();
   // const chartsClient = Stitch.initializeAppClient(client)
   return (
     <Grid container spacing={2} alignItems="center">
-      <Chart height={'600px'} width={'800px'} filter={null} chartId={'f5377be7-21f7-41b3-8ef5-01df1d4ef685'} client={chartsClient} />
+      <Chart height={'600px'} width={'1000px'} filter={null} chartId={'f5377be7-21f7-41b3-8ef5-01df1d4ef685'} client={chartsClient} />
+      <Chart height={'600px'} width={'1000px'} filter={null} chartId={'0188e15e-b5be-471f-9776-c694c2e76203'} client={chartsClient} />
+      <Chart height={'600px'} width={'1000px'} filter={null} chartId={'454bdb48-2b98-4f22-bd58-51110623ccf2'} client={chartsClient} />
       <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell>Field1</TableCell>
-            <TableCell align="right">Field2</TableCell>
-            <TableCell align="right">Field3</TableCell>
-            <TableCell align="right">Field4</TableCell>
-            <TableCell align="right">Field5</TableCell>
+            <TableCell>Device Date</TableCell>
+            <TableCell align="right">Device Id</TableCell>
+            <TableCell align="right">Device Type</TableCell>
+            <TableCell align="right">Measurement Value</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {data.map((row) => (
             <TableRow
-              key={'fieldvalue'}
+              key={row._id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {'fieldvalue'}
+                {row.DeviceDate}
               </TableCell>
-              <TableCell align="right">{row.field1}</TableCell>
-              <TableCell align="right">{row.field2}</TableCell>
-              <TableCell align="right">{row.field3}</TableCell>
-              <TableCell align="right">{row.field4}</TableCell>
+              <TableCell align="right">{row.meta.DeviceId}</TableCell>
+              <TableCell align="right">{row.meta.DeviceType}</TableCell>
+              <TableCell align="right">{row.value}</TableCell>
             </TableRow>
           ))}
         </TableBody>
