@@ -1,0 +1,36 @@
+{
+    "id": "617811163c7db800253b22d9",
+    "name": "SMSnotification",
+    "type": "DATABASE",
+    "config": {
+        "operation_types": [
+            "INSERT"
+        ],
+        "database": "Leafsaver",
+        "collection": "IoT_Data",
+        "service_name": "mongodb-atlas",
+        "match": {
+            "$or": [
+                {
+                    "fullDocument.value": {
+                        "$gt": {
+                            "$numberInt": "150"
+                        }
+                    }
+                }
+            ]
+        },
+        "project": {},
+        "full_document": true,
+        "full_document_before_change": false,
+        "unordered": false
+    },
+    "disabled": false,
+    "event_processors": {
+        "FUNCTION": {
+            "config": {
+                "function_name": "sendSMS"
+            }
+        }
+    }
+}

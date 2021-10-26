@@ -1,0 +1,11 @@
+{
+    "name": "TwilioSMS",
+    "type": "twilio",
+    "config": {
+        "sid": "AC088e65d4cf244e90d815578340a27cf1"
+    },
+    "secret_config": {
+        "auth_token": "AuthToken"
+    },
+    "version": 1
+}

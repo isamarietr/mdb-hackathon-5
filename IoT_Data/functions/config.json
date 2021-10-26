@@ -1,0 +1,20 @@
+[
+    {
+        "name": "IoT_Data",
+        "private": false,
+        "run_as_system": true
+    },
+    {
+        "name": "resetFunc",
+        "private": true
+    },
+    {
+        "name": "sendSMS",
+        "private": true
+    },
+    {
+        "name": "IoT_TS_Data",
+        "private": false,
+        "run_as_system": true
+    }
+]
