@@ -13,7 +13,7 @@
    mgeneratejs UserProfile.json -n 5 | mongoimport --uri "mongodb+srv://user:pswd@leafie.lkxsd.mongodb.net/Leafsaver?retryWrites=true" --collection UserProfile
    
 6. Run script to create KB_Articles Collection:
-   mgeneratejs KB_Articles.json -n 5 | mongoimport --uri "mongodb+srv://ctselebis:ctselebis@leafie.lkxsd.mongodb.net/Leafsaver?retryWrites=true" --collection KB_Articles
+   mgeneratejs KB_Articles.json -n 5 | mongoimport --uri "mongodb+srv://user:pswd@leafie.lkxsd.mongodb.net/Leafsaver?retryWrites=true" --collection KB_Articles
 
 
 
