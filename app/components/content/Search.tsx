@@ -29,7 +29,7 @@ export default function Search() {
             <Grid item xs>
               <TextField
                 fullWidth
-                placeholder="Search by email address, phone number, or user UID"
+                placeholder="Enter your search"
                 InputProps={{
                   disableUnderline: true,
                   sx: { fontSize: 'default' },
@@ -38,20 +38,13 @@ export default function Search() {
               />
             </Grid>
             <Grid item>
-              <Button variant="contained" sx={{ mr: 1 }}>
-                Add user
-              </Button>
-              <Tooltip title="Reload">
-                <IconButton>
-                  <RefreshIcon color="inherit" sx={{ display: 'block' }} />
-                </IconButton>
-              </Tooltip>
+             
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
       <Typography sx={{ my: 5, mx: 2 }} color="text.secondary" align="center">
-        No users for this project yet
+        results here
       </Typography>
     </Paper>
   );

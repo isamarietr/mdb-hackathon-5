@@ -35,7 +35,7 @@ function Home(props: Props) {
     <RealmAppProvider appId={props.realmAppId}>
       <RequireLoggedInUser>
         {/* {<Root />} */}
-        <Paperbase />
+        <Paperbase appId={props.realmAppId}/>
       </RequireLoggedInUser>
     </RealmAppProvider>
   )

@@ -157,7 +157,7 @@ theme = {
 
 const drawerWidth = 256;
 
-export default function Paperbase() {
+export default function Paperbase({appId}) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -171,7 +171,7 @@ export default function Paperbase() {
     let contentComponent = null;
 
     if(activeTab === 'dashboard'){ 
-      contentComponent = <Dashboard />
+      contentComponent = <Dashboard client={appId} />
     }
     else if(activeTab === 'search'){ 
       contentComponent = <Search />
