@@ -26,7 +26,7 @@ handler.get(async (req, res) => {
   const skipLimitStage = [
     {
       '$sort': {
-        'readings.DeviceDate': -1
+        'DeviceDate': -1
       }
     },
     // {
