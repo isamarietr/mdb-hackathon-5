@@ -41,7 +41,7 @@ To load the initial user profiles as well as establish the schema for Client Sid
     REALM_APP_ID="[YOUR-REALM-APP-ID]"
     ```
 
-### Charts Setup
+## Charts Setup
 
 1. Log onto MongoDB Charts
 
