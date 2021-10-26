@@ -13,6 +13,7 @@ Clone the repository before continuing.
 * MongoDB Atlas cluster running MongoDB 4.2 or later
 * The PyMongo driver with pymongocrypt, installed via `python3 -m pip install "pymongo[encryption,srv]~=3.11`
 * [mongocryptd](https://docs.mongodb.com/manual/reference/security-client-side-encryption-appendix/#mongocryptd-installation)
+* [Twilio](https://www.twilio.com) - Setup and account and create an ACCOUNT SID and AUTH TOKEN. You will also need to request a phone number to send the text messages from.
 
 #### Instructions
 To load the initial user profiles as well as establish the schema for Client Side Field Level Encryption, perform the following steps:
