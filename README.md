@@ -23,3 +23,19 @@ To load the initial user profiles as well as establish the schema for Client Sid
 4. Run the `client_schema_main.py` script to create the initial three user profiles and test to see that they only return decrypted results when using an encrypted session established by the driver.
 
 
+### Web App
+
+#### Prerequisites
+* Stand up a Realm Application and copy its Realm App ID. 
+
+#### Instructions
+1. Create a `.env` file in the following format:
+
+    ```
+    MDB_URI="mongodb+srv://dbuser:dbpassword@leafie.lkxsd.mongodb.net/test"
+    DB_NAME="Leafsaver"
+    COLLECTION_NAME="Lifestyle"
+    INDEX_NAME="default"
+    INDEX_FIELD="*"
+    REALM_APP_ID="[YOUR-REALM-APP-ID]"
+    ```
