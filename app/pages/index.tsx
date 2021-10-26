@@ -15,13 +15,6 @@ type Props = {
   realmAppId: string
 }
 
-const REALM_APP_ID = process.env.REALM_APP_ID
-
-// const REALM_APP_ID = 'iot_data-nkiiw'
-
-
-
-
 const RequireLoggedInUser = ({ children }) => {
   // Only render children if there is a logged in user.
   const app = useRealmApp();
