@@ -3,3 +3,5 @@ scripts/json_schema.json
 scripts/connection-string.txt
 scripts/__pycache__
 scripts/mongocryptd.pid
+scripts/master-key.txt
+app/.env
