@@ -100,6 +100,9 @@ export default function Search() {
           <Typography sx={{ color: 'text.secondary' }}>{ result.vendor }</Typography>
         </AccordionSummary>
         <AccordionDetails>
+        <Typography>
+          Serving Size: {result["Serving Size"]}
+          </Typography>
           <Typography>
           Sugars: {result.Sugars}
           </Typography>
@@ -107,14 +110,12 @@ export default function Search() {
           Total Fat: {result["Total Fat"]}
           </Typography>
           <Typography>
-          Calories: {result.Calories}
+          Protein: {result.Protein}
           </Typography>
           <Typography>
-          Calories: {result.Calories}
+          Carbohydrates: {result.Carbohydrates}
           </Typography>
-          <Typography>
-          Calories: {result.Calories}
-          </Typography>
+
         </AccordionDetails>
       </Accordion>
       })}

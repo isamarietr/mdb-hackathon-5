@@ -1,3 +1,7 @@
+html,
+body, #__next {
+  background-color: #eaeff1;
+}
 /* 
 html,
 body, #__next {

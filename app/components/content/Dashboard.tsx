@@ -20,7 +20,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 
 // const rows = [
@@ -31,54 +31,65 @@ import axios from 'axios';
 //   {"_id":"61780ee9a3b534cfbf7cad81","DeviceId":"Glucose1234","DeviceType":"Glocose Monitor","value":68.87,"DeviceDate":"2021-10-26 10:21:29.426603"},
 // ];
 
-export default function Dashboard({client}) {
-  
-  const [data, setData ] = useState<any[]>([])
+export default function Dashboard({ client }) {
+
+  const [data, setData] = useState<any[]>([])
+  const app = useRealmApp()
+
+  const refreshInterval = useRef<any | null>()
 
   useEffect(() => {
-    axios.get(`/api/iot?limit=10`).then(response => {
-    // axios.get(`/api/iot?DeviceId=${"Glucose1234"}&limit=10`).then(response => {
+    refreshReadings()
+    refreshInterval.current = setInterval(() => {
+      refreshReadings()
+    }, 10000)
+    console.log(`id`, app.currentUser.id);
+    
+  }, [])
+
+  const refreshReadings = () =>{
+    axios.get(`/api/iot?limit=10&userId=${app.currentUser.id}`).then(response => {
+      // axios.get(`/api/iot?DeviceId=${"Glucose1234"}&limit=10`).then(response => {
       console.log(`data`, response);
       setData(response.data.result);
     }).catch(error => {
       console.log(error.response)
     })
-  }, [])
-
+  }
   const chartsClient = useRealmApp();
   // const chartsClient = Stitch.initializeAppClient(client)
   return (
-    <Grid container spacing={2} alignItems="center">
-      <Chart height={'600px'} width={'1000px'} filter={null} chartId={'f5377be7-21f7-41b3-8ef5-01df1d4ef685'} client={chartsClient} />
-      <Chart height={'600px'} width={'1000px'} filter={null} chartId={'0188e15e-b5be-471f-9776-c694c2e76203'} client={chartsClient} />
-      <Chart height={'600px'} width={'1000px'} filter={null} chartId={'454bdb48-2b98-4f22-bd58-51110623ccf2'} client={chartsClient} />
-      <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Device Date</TableCell>
-            <TableCell align="right">Device Id</TableCell>
-            <TableCell align="right">Device Type</TableCell>
-            <TableCell align="right">Measurement Value</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((row) => (
-            <TableRow
-              key={row._id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.DeviceDate}
-              </TableCell>
-              <TableCell align="right">{row.meta.DeviceId}</TableCell>
-              <TableCell align="right">{row.meta.DeviceType}</TableCell>
-              <TableCell align="right">{row.value}</TableCell>
+    <Grid container justifyContent="center" alignItems="center">
+      <Chart height={'300px'} width={'800px'} filter={{ "meta.UserId": app.currentUser.id}} chartId={'f5377be7-21f7-41b3-8ef5-01df1d4ef685'} client={chartsClient} />
+      <Chart height={'300px'} width={'800px'} filter={{ "meta.UserId": app.currentUser.id}} chartId={'454bdb48-2b98-4f22-bd58-51110623ccf2'} client={chartsClient} />
+      <Chart height={'300px'} width={'800px'} filter={{ "meta.UserId": app.currentUser.id}} chartId={'0188e15e-b5be-471f-9776-c694c2e76203'} client={chartsClient} />
+      <TableContainer sx={{ m: 4 }} component={Paper}>
+        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Device Date</TableCell>
+              <TableCell align="right">Device Id</TableCell>
+              <TableCell align="right">Device Type</TableCell>
+              <TableCell align="right">Measurement Value</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {data.map((row) => (
+              <TableRow
+                key={row._id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.DeviceDate}
+                </TableCell>
+                <TableCell align="right">{row.meta.DeviceId}</TableCell>
+                <TableCell align="right">{row.meta.DeviceType}</TableCell>
+                <TableCell align="right">{row.value}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
       <Paper sx={{ maxWidth: 936, margin: 'auto', overflow: 'hidden' }}>
 

@@ -13,11 +13,13 @@ const Chart = ({filter, chartId, height, width, client}) => {
   const sdk = new ChartsEmbedSDK({baseUrl: 'https://charts.mongodb.com/charts-team-5-tyesn'});
   const chartDiv = useRef(null);
   const [rendered, setRendered] = useState(false);
-  const [chart] = useState(sdk.createChart({chartId: chartId, height: height, width: width, theme: "dark"}));
+  const [chart] = useState(sdk.createChart({chartId: chartId, height: height, width: width, theme: "dark", refreshInterval: 10}));
   
-
+  
   useEffect(() => {
     chart.render(chartDiv.current).then(() => setRendered(true)).catch(err => console.log("Error during Charts rendering.", err));
+  
+    
   }, [chart]);
 
   useEffect(() => {

@@ -27,7 +27,7 @@ export const Login: React.FC = () => {
       event.preventDefault();
       const mongodb = app.currentUser.mongoClient("mongodb-atlas");
   // const plants = mongodb.db("example").collection<Plant>("plants");
-console.log(`mongodb`, mongodb)
+// console.log(`mongodb`, mongodb)
     }
   }
 
@@ -38,7 +38,8 @@ console.log(`mongodb`, mongodb)
   return <Container className="my-auto  mx-auto ">
     {renderErrorMessage()}
     <Form >
-      <Col >
+      <Col className="my-4 justify-contents-center">
+      <h1 className="my-4" >Leafsavers</h1>
         <Form.Row className="my-4 align-items-center">
           <Form.Text className="mb-1" muted>
             Username
@@ -49,7 +50,7 @@ console.log(`mongodb`, mongodb)
           <Form.Text className="mb-1" muted>
             Password
           </Form.Text>
-          <Form.Control ref={inputPassword} onKeyDown={handleKeyDown}/>
+          <Form.Control type="password" ref={inputPassword} onKeyDown={handleKeyDown}/>
         </Form.Row>
         <Form.Row className="my-4 align-items-center">
           <Button onClick={handleLogin}>Log In</Button>

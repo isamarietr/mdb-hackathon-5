@@ -19,13 +19,16 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useRealmApp, RealmAppProvider } from "../../RealmApp";
+
 
 export default function History() {
     
   const [data, setData ] = useState<any[]>([])
+  const app = useRealmApp()
 
   useEffect(() => {
-    axios.get(`/api/iot?limit=-1`).then(response => {
+    axios.get(`/api/iot?limit=100&userId=${app.currentUser.id}`).then(response => {
       console.log(`data`, response);
       setData(response.data.result);
     }).catch(error => {

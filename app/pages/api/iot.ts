@@ -8,33 +8,36 @@ handler.use(middleware);
 
 handler.get(async (req, res) => {
 
-  const { DeviceId, limit } = req.query;
+  const { DeviceId, limit, userId } = req.query;
   const { db } = req.mongodb;
 
   const limitValue = Number.parseInt(limit as string)
 
-  const searchStage = {
-    '$match': {
-      'meta': { '$exists': true}
-    }
-  };
+  const searchStage = 
+    [
+      {
+        '$match': {
+          'meta.UserId':  userId
+        }
+      }
+    ]
+
 
   const skipLimitStage = [
     {
       '$sort': {
-        'DeviceDate': -1
+        'readings.DeviceDate': -1
       }
     },
     // {
     //   "$skip": pageValue * limitValue
     // },
     {
-      "$limit": limitValue > 0 ? limitValue : 100
+      "$limit": limitValue
     }
   ]
 
-  console.log(skipLimitStage);
-
+  console.log([...searchStage, ...skipLimitStage]);
 
   const countStage = { $count: 'total' }
   try {
@@ -47,8 +50,8 @@ handler.get(async (req, res) => {
 
     // }
 
-    // let result = await db.collection('IoT_Data').aggregate([searchStage, ...skipLimitStage]).toArray();
-    let result = await db.collection('IoT_Data').find({}).toArray();
+    let result = await db.collection('IoT_Data').aggregate([...searchStage, ...skipLimitStage]).toArray();
+    // let result = await db.collection('IoT_Data').find({}).toArray();
     // let result = await db.collection['IoT_Data'].aggregate([searchStage, ...skipLimitStage]).toArray();
     return res.send({ result });
   } catch (e) {
