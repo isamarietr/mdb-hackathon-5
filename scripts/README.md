@@ -8,4 +8,6 @@
 
 `mongodb+srv://<username>:<password>@leafie.lkxsd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
 
+3. Run scripts to simulate different users/devices: ReadGlugose1.py, ReadHeartRate1.py, ReadTemp1.py.
+
 
