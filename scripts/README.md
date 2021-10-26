@@ -7,3 +7,5 @@
    CLUSTER_URL = 'YOUR_CLUSTER_URI'
 
 `mongodb+srv://<username>:<password>@leafie.lkxsd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+
+
