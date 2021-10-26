@@ -25,7 +25,7 @@ export default function History() {
   const [data, setData ] = useState<any[]>([])
 
   useEffect(() => {
-    axios.get(`/api/iot?DeviceId=${"Glucose1234"}&limit=-1`).then(response => {
+    axios.get(`/api/iot?limit=-1`).then(response => {
       console.log(`data`, response);
       setData(response.data.result);
     }).catch(error => {
@@ -54,8 +54,8 @@ export default function History() {
               <TableCell component="th" scope="row">
                 {row.DeviceDate}
               </TableCell>
-              <TableCell align="right">{row.DeviceId}</TableCell>
-              <TableCell align="right">{row.DeviceType}</TableCell>
+              <TableCell align="right">{row.meta.DeviceId}</TableCell>
+              <TableCell align="right">{row.meta.DeviceType}</TableCell>
               <TableCell align="right">{row.value}</TableCell>
             </TableRow>
           ))}

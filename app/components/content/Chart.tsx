@@ -1,12 +1,20 @@
 import React, {useEffect, useRef, useState} from 'react';
 import ChartsEmbedSDK, { getRealmUserToken } from "@mongodb-js/charts-embed-dom";
+import { useRealmApp, RealmAppProvider } from "../../RealmApp";
+
+import { Stitch, UserPasswordCredential } from 'mongodb-stitch-browser-sdk'
+
 
 const Chart = ({filter, chartId, height, width, client}) => {
+  // const chartsClient = Stitch.initializeAppClient('iot_data-nkiiw')
+
+  const app = useRealmApp()
 
   const sdk = new ChartsEmbedSDK({baseUrl: 'https://charts.mongodb.com/charts-team-5-tyesn'});
   const chartDiv = useRef(null);
   const [rendered, setRendered] = useState(false);
   const [chart] = useState(sdk.createChart({chartId: chartId, height: height, width: width, theme: "dark"}));
+  
 
   useEffect(() => {
     chart.render(chartDiv.current).then(() => setRendered(true)).catch(err => console.log("Error during Charts rendering.", err));
