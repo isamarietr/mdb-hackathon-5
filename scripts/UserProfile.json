@@ -1,0 +1,47 @@
+{
+  "FirstName": "$first",
+  "LastName": "$last",
+  "email": "$email",
+  "MedicalRecordId": { "$string": { "length": 16 } },
+  "AccountId": { "$string": { "length": 16 } },
+  "DOB": {
+    "$choose": {
+      "from": ["1990/01/01", "1981/02/02", "1992/03/01", "1985/10/26"]
+    }
+  },
+  "Phone": "$phone",
+  "address": {
+    "number": { "$number": { "min": 1, "max": 9999 } },
+    "street": { "$street": { "country": "us" } },
+    "city": "$city",
+    "state": { "$state": { "country": "us" } },
+    "zip": "$zip",
+    "location": {
+      "$point": {
+        "long_lim": [-75.1652, -71.0589],
+        "lat_lim": [39.9526, 42.3601]
+      }
+    }
+  },
+  "Insurance": {
+    "ProviderName": {
+      "$choose": {
+        "from": ["AETNA", "CIGNA", "BCBS", "MEDICARE"]
+      }
+    },
+    "PolicyId": { "$string": { "length": 10 } }
+  },
+  "Devices": {
+    "DeviceId": {
+      "$choose": {
+        "from": [
+          "Device1234",
+          "Device6789",
+          "Glucose1234",
+          "Heart1234",
+          "Pulse1234"
+        ]
+      }
+    }
+  }
+}
