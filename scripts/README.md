@@ -8,6 +8,7 @@
 
 `mongodb+srv://<username>:<password>@leafie.lkxsd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
 
-3. Run scripts to simulate different users/devices: ReadGlugose1.py, ReadHeartRate1.py, ReadTemp1.py.
+3. Run scripts to simulate different users/devices for IoT_Data Collection: ReadGlugose1.py, ReadHeartRate1.py, ReadTemp1.py.
+4. Run scripts to simulate  different users/devices for IoT_TS_Data Collection: ReadGlugoseTS1.py, ReadHeartTS1.py, ReadTempTS1.py. 
 
 
