@@ -1,5 +1,5 @@
 # Pre-requisites
-1. Create a file called `settings` in the root of this directory and include your MongoDB connection string, such as:
+1. Create a file called `settings.py` in the root of this directory and include your MongoDB connection string, such as:
 2. DB_NAME = 'Your_DB_Name'
 COLLECTION_NAME = 'You_Collection_Name'
 COLLECTION_TS_NAME = 'You_Collection_TS_Name'
