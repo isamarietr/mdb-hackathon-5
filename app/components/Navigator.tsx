@@ -20,6 +20,7 @@ import SettingsInputComponentIcon from '@mui/icons-material/SettingsInputCompone
 import TimerIcon from '@mui/icons-material/Timer';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
+import { useRealmApp, RealmAppProvider } from "../RealmApp";
 
 const categories = [
   {
@@ -65,9 +66,22 @@ const itemCategory = {
   px: 3,
 };
 
+
+
+
 export default function Navigator(props: DrawerProps) {
   const { ...other } = props;
 
+  const app = useRealmApp();
+
+  const handleLogout = async () => {
+    try {
+      await app.logOut()
+    } catch (error) {
+      console.log(`An error ocurred during log out.`, error);
+    }
+  }
+  
   return (
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
@@ -92,7 +106,7 @@ export default function Navigator(props: DrawerProps) {
           </ListItemIcon>
           <ListItemText>History</ListItemText>
         </ListItem>
-        <ListItem sx={{ ...item, ...itemCategory }}>
+        <ListItem sx={{ ...item, ...itemCategory }} onClick={handleLogout}>
           <ListItemIcon>
             <LogoutIcon />
           </ListItemIcon>
