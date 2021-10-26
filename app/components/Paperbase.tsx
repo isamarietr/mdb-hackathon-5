@@ -8,7 +8,9 @@ import Link from '@mui/material/Link';
 import Navigator from './Navigator';
 import Content from './Content';
 import Header from './Header';
-
+import Dashboard from './content/Dashboard';
+import Search from './content/Search';
+import History from './content/History';
 
 function Copyright() {
   return (
@@ -175,6 +177,24 @@ export default function Paperbase() {
     setMobileOpen(!mobileOpen);
   };
 
+  const [activeTab, setActiveTab] = React.useState('dashboard');
+
+  const renderContent = () => {
+    let contentComponent = null;
+
+    if(activeTab === 'dashboard'){ 
+      contentComponent = <Dashboard />
+    }
+    else if(activeTab === 'search'){ 
+      contentComponent = <Search />
+    }
+    else if(activeTab === 'history'){ 
+      contentComponent = <History />
+    }
+
+    return contentComponent
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex', minHeight: '100vh' }}>
@@ -184,27 +204,32 @@ export default function Paperbase() {
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         >
           {isSmUp ? null : (
-            <Navigator
+            <Navigator setActiveTab={setActiveTab}
               PaperProps={{ style: { width: drawerWidth } }}
               variant="temporary"
               open={mobileOpen}
               onClose={handleDrawerToggle}
             />
           )}
-          <Navigator
+          <Navigator setActiveTab={setActiveTab}
             PaperProps={{ style: { width: drawerWidth } }}
             sx={{ display: { sm: 'block', xs: 'none' } }}
           />
         </Box>
+        {/* <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#eaeff1' }}>
+            { renderContent()}
+          </Box> */}
+
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <Header onDrawerToggle={handleDrawerToggle} />
+          <Header name= { activeTab } onDrawerToggle={handleDrawerToggle} />
           <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#eaeff1' }}>
-            <Content />
+            {/* { <Content /> } */}
+            { renderContent() }
           </Box>
           <Box component="footer" sx={{ p: 2, bgcolor: '#eaeff1' }}>
             <Copyright />
           </Box>
-        </Box>
+        </Box> 
       </Box>
     </ThemeProvider>
   );

@@ -66,10 +66,11 @@ const itemCategory = {
   px: 3,
 };
 
+interface Props extends DrawerProps {
+  setActiveTab: (tab: string) => any
+}
 
-
-
-export default function Navigator(props: DrawerProps) {
+export default function Navigator(props: Props) {
   const { ...other } = props;
 
   const app = useRealmApp();
@@ -88,19 +89,19 @@ export default function Navigator(props: DrawerProps) {
         <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#fff' }}>
           Leafsavers
         </ListItem>
-        <ListItem sx={{ ...item, ...itemCategory }}>
+        <ListItem sx={{ ...item, ...itemCategory }} onClick={() => { props.setActiveTab('dashboard') }}>
           <ListItemIcon>
             <ShowChartIcon />
           </ListItemIcon>
           <ListItemText>My Dashboard</ListItemText>
         </ListItem>
-        <ListItem sx={{ ...item, ...itemCategory }}>
+        <ListItem sx={{ ...item, ...itemCategory }} onClick={() =>{ props.setActiveTab('search') }}>
           <ListItemIcon>
             <SearchIcon />
           </ListItemIcon>
           <ListItemText>Search</ListItemText>
         </ListItem>
-        <ListItem sx={{ ...item, ...itemCategory }}>
+        <ListItem sx={{ ...item, ...itemCategory }} onClick={()=> { props.setActiveTab('history') }}>
           <ListItemIcon>
             <HistoryIcon />
           </ListItemIcon>
