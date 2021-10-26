@@ -39,3 +39,51 @@ To load the initial user profiles as well as establish the schema for Client Sid
     INDEX_FIELD="*"
     REALM_APP_ID="[YOUR-REALM-APP-ID]"
     ```
+
+### Charts Setup
+
+1. Log onto MongoDB Charts
+
+2. Go to Data Sources and click 'Add Data Source' and add the `Leafsaver.IoT_TS_Data` collection
+
+3. Click the 'Add Pipeline' button next to `Leafsaver.IoT_TS_Data`
+
+4. Add the following Aggregation Pipeline and click 'Save':
+```
+[
+   {$setWindowFields: {
+         partitionBy: { DeviceID : "$meta.DeviceID" },
+         sortBy: { DeviceDate: 1 },
+         output: {
+            movingAverage: {
+                $avg : "$value",
+               window : { "documents" : [-10, 0] }
+            } } 
+   } }
+]
+```
+
+4. Create a new Dashboard by clicking 'Add Dashboard' and call it whatever you like
+
+5. You need to add 3 Charts using using the `Leafsaver.IoT_TS_Data` Data Source.
+   i) Add a chart for the <strong>Glucose Monitor</strong>
+
+   X Axis: `DeviceDate`<br>
+   Y Axis: `value`<br>
+   Y Axis: `movingAverage`<br>
+   ![chartEncode](img/glucose1.png)
+
+   Filter: `DeviceType` and Check ONLY `Glucose Monitor`
+   ![chartFilter](img/glucose2.png)
+
+   ii) Add a chart for the <strong>Room Temperature Monitor</strong>
+
+   X Axis: `DeviceDate`<br>
+   Y Axis: `value`<br>
+   Y Axis: `movingAverage`<br>
+   Filter: `DeviceType` and Check ONLY `Room Temperature Monitor`
+
+6. Enable Embedding for each chart, enable unauthenticated access, and for "User specified filters" add the `meta.UserId`. For each chart get the `Charts Base URL` and Chart ID
+ ![chartEmbed](img/chartEmbed.png)
+
+
