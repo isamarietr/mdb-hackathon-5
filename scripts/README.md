@@ -4,7 +4,6 @@
 2. DB_NAME = 'Your_DB_Name'
    COLLECTION_NAME = 'You_Collection_Name'
    COLLECTION_TS_NAME = 'You_Collection_TS_Name'
-   # cluster connection string
    CLUSTER_URL = 'YOUR_CLUSTER_URI'
 
 3. Run scripts to simulate different users/devices for IoT_Data Collection: ReadGlugose1.py, ReadHeartRate1.py, ReadTemp1.py.
