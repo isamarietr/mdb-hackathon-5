@@ -50,7 +50,7 @@ handler.get(async (req, res) => {
 
     // }
 
-    let result = await db.collection('IoT_Data').aggregate([...searchStage, ...skipLimitStage]).toArray();
+    let result = await db.collection('IoT_TS_Data').aggregate([...searchStage, ...skipLimitStage]).toArray();
     // let result = await db.collection('IoT_Data').find({}).toArray();
     // let result = await db.collection['IoT_Data'].aggregate([searchStage, ...skipLimitStage]).toArray();
     return res.send({ result });
