@@ -33,7 +33,7 @@ def get_connection_string(path="./connection-string.txt"):
 
 # Connect to MongoDB with the key information generated above:
 with MongoClient(get_connection_string(), auto_encryption_opts=fle_opts) as client:
-
+    
     # Create a ClientEncryption object to create the data key below:
     client_encryption = ClientEncryption(
         kms_providers,
@@ -42,7 +42,8 @@ with MongoClient(get_connection_string(), auto_encryption_opts=fle_opts) as clie
         CodecOptions(uuid_representation=STANDARD),
     )
 
-    print("Creating key in MongoDB ...")
+    print("Creating keys in MongoDB ...")
+
     MedicalRecordIdKey_id = client_encryption.create_data_key("local", key_alt_names=["medicalrecordid"])
     DOBKey_id = client_encryption.create_data_key("local", key_alt_names=["dob"])
     InsurancePolicyIdKey_id = client_encryption.create_data_key("local", key_alt_names=["insurancepolicyid"])

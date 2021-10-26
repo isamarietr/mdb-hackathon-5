@@ -38,7 +38,7 @@ fle_opts = AutoEncryptionOpts(
 # Add new documents to the "UserProfileEncrypted" collection, and then read it back out
 # to demonstrate that the MedicalProfileID, DOB, and InsurancePolicyID fields are automatically decrypted by PyMongo:
 with MongoClient(get_connection_string(), auto_encryption_opts=fle_opts) as client:
-    client.Leafsaver.UserProfileEncrypted.delete_many({})
+    #client.Leafsaver.UserProfileEncrypted.delete_many({})
     client.Leafsaver.UserProfileEncrypted.insert_one(
         {
             "FirstName": "Bertie",
