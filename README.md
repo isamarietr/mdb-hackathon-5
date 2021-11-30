@@ -28,6 +28,7 @@ To load the initial user profiles as well as establish the schema for Client Sid
 
 #### Prerequisites
 * Stand up a Realm Application and copy its Realm App ID. 
+* Configure the Twilio Service with your ACCOUNT SID and AUTH TOKEN 
 
 #### Instructions
 1. Create a `.env` file in the following format:
